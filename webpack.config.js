@@ -2,8 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const appName = require('./package.json').name;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: [
     // 入口文件
     path.resolve(__dirname, './src/index.js'),
@@ -19,6 +21,23 @@ module.exports = {
     hot: true,
     open: true,
     port: 8001
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js|jsx$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -102,7 +102,7 @@ function PureComponent(props, context, updater) {
 const pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
 pureComponentPrototype.constructor = PureComponent;
 Object.assign(pureComponentPrototype, Component.prototype);
-pureComponentPrototype.isPureReactComponent = true; //用来区分pureReactComponent，就这一个标示，好像没其他
+pureComponentPrototype.isPureReactComponent = true; //用来区分pureReactComponent，就这一个标示，好像没其他作用
 
 export {
   Component,

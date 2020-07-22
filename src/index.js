@@ -1,15 +1,21 @@
 // import _ from 'lodash';
+import styles from './style/index.less';
+import { React, ReactDOM } from './utils/base';
+const { Fragment } = React;
 
-function createComponent(tag) {
-  let element = document.createElement(tag);
-  let template = [
-    'Hello',
-    'webpack',
-    'Brian',
-    'Good!',
-    'Ok1111122啥事 !!']
-  element.innerHTML = template.join('<br/>')
-  return element
+const customerComponent = (props) => {
+  const { name } = props;
+  return (
+    <Fragment>
+      <h1 className='header'>Hi, {name}</h1>
+    </Fragment>
+  )
 }
 
-document.body.append(createComponent('h1'))
+ReactDOM.render(
+  customerComponent({ name: 'brian' }),
+  document.getElementById('root'),
+  function () {
+    console.log(arguments)
+  }
+)
