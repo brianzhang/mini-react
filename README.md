@@ -95,3 +95,9 @@ yarn add babel babel-cli babel-core babel-loader babel-plugin-transform-runtime 
   }
 }
 ```
+
+css module 解析
+
+```bash
+yarn add postcss-loader
+```

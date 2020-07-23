@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const appName = require('./package.json').name;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const resolve = dir => path.resolve(__dirname, dir);
 
 module.exports = {
   mode: 'development',
@@ -20,7 +20,8 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'dist'), //开发运行时生成目录
     hot: true,
     open: true,
-    port: 8001
+    port: 8001,
+    host: 'localhost'
   },
   module: {
     rules: [
@@ -35,7 +36,22 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader']
+        use: [
+          'style-loader',
+          // 'css-loader',
+          { loader: 'css-loader', options: { modules: true, importLoaders: 1 } },
+          // 'less-loader'
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: (loader) => [
+                require('postcss-import')({ root: loader.resourcePath }),
+                require('autoprefixer')(),
+                require('cssnano')()
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -46,5 +62,10 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin()
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
 }
