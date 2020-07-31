@@ -6,7 +6,7 @@ export const HeaderComponent = (props) => {
     <header className="flex flex-justify">
       {
         NAV_MENUS.map((i, y) => {
-          return <nav className={y === 0 ? 'selected' : ''}>{i.name}</nav>
+          return <nav key={y * Math.random()} className={y === 0 ? 'selected' : ''}>{i.name}</nav>
         })
       }
     </header>

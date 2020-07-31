@@ -96,8 +96,72 @@ yarn add babel babel-cli babel-core babel-loader babel-plugin-transform-runtime 
 }
 ```
 
-css module 解析
+> css module 解析
 
 ```bash
-yarn add postcss-loader
+yarn add postcss-loader postcss-import autoprefixer cssnano
+```
+
+> css module webpack 配置
+
+```js
+{
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: { modules: true, importLoaders: 1 }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: loader => [
+                require("postcss-import")({ root: loader.resourcePath }),
+                require("autoprefixer")(),
+                require("cssnano")()
+              ]
+            }
+          }
+        ]
+      }
+    ];
+  }
+}
+```
+
+> express 自动打开浏览器
+
+```bash
+yarn add open
+```
+
+```js
+const open = require("open");
+
+var server = app.listen(8000, "127.0.0.1", () => {
+  const { address, port } = server.address();
+  console.log(`http://${address}:${port}`);
+  open(`http://${address}:${port}`);
+});
+```
+
+> webpack alias 配置
+> 就不用再引入模块的时候 '../../../'找目录了
+
+```js
+// webpack.config.js 配置resolve.alias 即可
+const path = require("path");
+const resolve = dir => path.resolve(__dirname, dir);
+//
+{
+  resolve: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
+}
 ```
